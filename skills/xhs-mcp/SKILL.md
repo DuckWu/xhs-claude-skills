@@ -1,12 +1,14 @@
 ---
-name: xhs
-description: 提取小红书帖子内容（文字、图片、视频转录），整理为 Markdown 并保存
+name: xhs-mcp
+description: 提取小红书帖子内容并获取高赞评论（需配置 rednote MCP）
 user-invocable: true
 argument-hint: <小红书链接>
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, mcp__rednote__get_note_content
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, mcp__rednote__get_note_content, mcp__rednote__get_note_comments
 ---
 
-用户希望提取小红书帖子内容。请按以下步骤处理：
+用户希望提取小红书帖子内容，并同时获取高赞评论（通过 rednote MCP）。请按以下步骤处理：
+
+> **前置条件：** 此命令依赖 [rednote MCP](https://github.com/DuckWu/rednote-mcp) 获取评论。如果 MCP 未配置或未登录，评论步骤自动跳过，笔记仍正常保存。
 
 ## 常量定义
 - Cookies 文件: `~/cookies.json`（从 Chrome 导出的小红书 cookies）
@@ -72,6 +74,24 @@ data = json.loads(raw)
 ```
 
 如果请求失败（被重定向到 404/错误页），说明 cookies 过期，提示用户按步骤 0 重新导出。
+
+### 步骤 2.5：获取高赞评论（MCP）
+使用 MCP 工具 `mcp__rednote__get_note_comments` 获取帖子评论，筛选前 10 条最高赞评论。
+
+**调用方式：**
+- 工具：`mcp__rednote__get_note_comments`
+- 参数：`url` — 帖子链接
+
+**处理逻辑：**
+1. 调用 MCP 获取评论列表
+2. 按点赞数降序排列
+3. 取前 10 条（不足 10 条则全部保留）
+4. 去重：相同内容的评论只保留点赞数最高的那条（评论区常有重复显示）
+5. 每条保留：作者名、内容、点赞数
+
+**容错：**
+- 如果 MCP 工具不可用（rednote MCP server 未配置或未登录），跳过此步骤，输出中不包含评论部分。同时提示用户：如需评论功能，请先配置 rednote MCP（https://github.com/DuckWu/rednote-mcp）并登录。
+- 如果 MCP 访问 `rednote.com` 链接返回 404：将 URL 中的 `rednote.com` 替换为 `xiaohongshu.com`（帖子 ID 不变），重试 `get_note_comments`。
 
 ### 步骤 3：视频转录（仅视频帖子）
 如果帖子 type 为 video，执行以下子步骤：
@@ -195,6 +215,14 @@ user 和 project 类型记忆）了解用户背景、研究方向和当前工作
 > - 按逻辑结构分节，保留关键数据和结论
 > - 图片用 `![图N](urlDefault)` 嵌入
 > - 视频帖子在此处放整理后的转录内容
+
+> [!tip]- 热门评论（Top 10）
+> 按点赞数降序，筛选前 10 条高赞评论（去重后）：
+> 1. **作者名**（N赞）：评论内容
+> 2. **作者名**（N赞）：评论内容
+> ...
+> 
+> 如果 MCP 获取评论失败或帖子无评论，此段不出现。
 
 > [!info]- 笔记属性
 > - **来源**: 小红书 · 作者名

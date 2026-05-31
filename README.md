@@ -57,11 +57,14 @@
 
 | 命令 | 说明 |
 |:-----|:-----|
-| `/xhs <链接>` | 📄 提取单个帖子 — 文字、图片、视频转录，MCP 高赞评论 |
+| `/xhs <链接>` | 📄 提取单个帖子 — 文字、图片、视频转录 |
+| `/xhs-mcp <链接>` | 💬 提取帖子 + MCP 高赞评论（需配置 rednote MCP） |
 | `/xhs-batch <链接列表>` | 📦 批量提取多个帖子 |
 | `/xhs-analyze [关键词]` | 🔍 分析已保存的帖子 — 总结、对比、发现模式 |
 
-> 💡 可选安装 [rednote MCP](https://github.com/DuckWu/rednote-mcp) 自动获取帖子评论，筛选 Top 10 高赞写入笔记。不装 MCP 也能正常使用全部其他功能。
+> 💡 默认 `/xhs` 不获取评论。如需评论功能，请先安装 [rednote MCP](https://github.com/DuckWu/rednote-mcp) 并登录，然后使用 `/xhs-mcp`。不装 MCP 也能正常使用全部其他功能。
+>
+> ⚠️ **已知问题**：部分 `rednote.com` 链接在 MCP 中可能返回 404。此时手动将链接中的 `rednote.com` 替换为 `xiaohongshu.com` 即可（帖子 ID 不变）。
 
 ### 📂 输出
 
@@ -87,10 +90,6 @@ xhs/
 
 > [!tip]- 详情                         ← 默认折叠
 > 结构化内容...
-
-> [!tip]- 热门评论（Top 10）            ← MCP 获取，默认折叠
-> 1. **作者**（N赞）：评论内容
-> ...
 
 > [!info]- 笔记属性                     ← 默认折叠
 > 来源 · 日期 · 互动 · 标签
@@ -120,8 +119,7 @@ xhs/
      │              │
      ▼              ▼
  ┌─────────────────────────┐
- │  MCP 评论（可选）        │  ← rednote MCP 获取评论
- │  筛选 Top 10 高赞        │    自动去重排序
+ │  ✨ Peter Thiel 风格整理 │  ← 洞察式写作，折叠结构
  └────────────┬────────────┘
               ▼
         Obsidian 笔记
@@ -148,6 +146,7 @@ rednote-to-obsidian/
 ├── .claude-plugin/plugin.json
 └── skills/
     ├── xhs/SKILL.md
+    ├── xhs-mcp/SKILL.md
     ├── xhs-batch/SKILL.md
     └── xhs-analyze/SKILL.md
 ```

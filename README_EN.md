@@ -57,11 +57,14 @@ On first run, the skill auto-guides you through a **30-second cookie setup**:
 
 | Command | Description |
 |:--------|:------------|
-| `/xhs <url>` | 📄 Extract a single post — text, images, video transcription, MCP top comments |
+| `/xhs <url>` | 📄 Extract a single post — text, images, video transcription |
+| `/xhs-mcp <url>` | 💬 Extract post + MCP top comments (requires rednote MCP) |
 | `/xhs-batch <urls>` | 📦 Batch extract multiple posts |
 | `/xhs-analyze [keyword]` | 🔍 Analyze saved posts — summarize, compare, find patterns |
 
-> 💡 Optionally install [rednote MCP](https://github.com/DuckWu/rednote-mcp) to auto-fetch comments and save Top 10 most-liked. All other features work without MCP.
+> 💡 The default `/xhs` does not fetch comments. To enable comments, install [rednote MCP](https://github.com/DuckWu/rednote-mcp), log in, then use `/xhs-mcp`. All other features work without MCP.
+>
+> ⚠️ **Known issue**: Some `rednote.com` links may return 404 in MCP. Workaround: manually replace `rednote.com` with `xiaohongshu.com` in the link (the post ID stays the same).
 
 ### 📂 Output
 
@@ -87,10 +90,6 @@ Core argument, 2-3 sentences.
 
 > [!tip]- Details                       ← collapsed by default
 > Structured content...
-
-> [!tip]- Top Comments (Top 10)        ← via MCP, collapsed by default
-> 1. **Author** (N likes): Comment text
-> ...
 
 > [!info]- Metadata                     ← collapsed by default
 > Source · date · stats · tags
@@ -120,12 +119,13 @@ The "Relevance" line reads from Claude Code's [memory system](https://docs.anthr
      │              │
      ▼              ▼
  ┌─────────────────────────┐
- │  MCP Comments (optional) │  ← rednote MCP fetches comments
- │  Top 10 by likes          │    auto dedup & sort
+ │  ✨ Peter Thiel format    │  ← Insight-driven, collapsible
  └────────────┬────────────┘
               ▼
         Obsidian note
 ```
+
+> 💡 Use `/xhs-mcp <url>` to add MCP comment fetching to the above flow. Comments appear as Top 10 most-liked section in the note.
 
 ---
 
@@ -148,6 +148,7 @@ rednote-to-obsidian/
 ├── .claude-plugin/plugin.json
 └── skills/
     ├── xhs/SKILL.md
+    ├── xhs-mcp/SKILL.md
     ├── xhs-batch/SKILL.md
     └── xhs-analyze/SKILL.md
 ```
