@@ -3,7 +3,7 @@ name: xhs-batch
 description: 批量提取小红书帖子，整理为本地 Markdown 知识库
 user-invocable: true
 argument-hint: <链接1> <链接2> ... 或粘贴多行链接
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, mcp__rednote__get_note_content, mcp__rednote__get_note_comments
 ---
 
 用户希望批量提取多个小红书帖子。请按以下步骤处理：

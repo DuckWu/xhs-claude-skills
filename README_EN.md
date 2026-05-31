@@ -11,7 +11,9 @@
 
 ---
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that extracts [RedNote (小红书)](https://www.xiaohongshu.com) posts into concise [Obsidian](https://obsidian.md) notes. Supports text, images, and video — video posts are automatically downloaded and transcribed locally with whisper. No MCP server, no headless browser, no backend. Just cookies + HTTP + local models.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that extracts [RedNote (小红书)](https://www.xiaohongshu.com) posts into concise [Obsidian](https://obsidian.md) notes. Supports text, images, and video — video posts are automatically downloaded and transcribed locally with whisper.
+
+Core mode uses only cookies + HTTP + local models. Optionally integrate [rednote MCP](https://github.com/DuckWu/rednote-mcp) to fetch comments and auto-select the Top 10 most-liked for your notes.
 
 ---
 
@@ -55,9 +57,11 @@ On first run, the skill auto-guides you through a **30-second cookie setup**:
 
 | Command | Description |
 |:--------|:------------|
-| `/xhs <url>` | 📄 Extract a single post — text, images, video transcription |
+| `/xhs <url>` | 📄 Extract a single post — text, images, video transcription, MCP top comments |
 | `/xhs-batch <urls>` | 📦 Batch extract multiple posts |
 | `/xhs-analyze [keyword]` | 🔍 Analyze saved posts — summarize, compare, find patterns |
+
+> 💡 Optionally install [rednote MCP](https://github.com/DuckWu/rednote-mcp) to auto-fetch comments and save Top 10 most-liked. All other features work without MCP.
 
 ### 📂 Output
 
@@ -84,6 +88,10 @@ Core argument, 2-3 sentences.
 > [!tip]- Details                       ← collapsed by default
 > Structured content...
 
+> [!tip]- Top Comments (Top 10)        ← via MCP, collapsed by default
+> 1. **Author** (N likes): Comment text
+> ...
+
 > [!info]- Metadata                     ← collapsed by default
 > Source · date · stats · tags
 ```
@@ -107,11 +115,16 @@ The "Relevance" line reads from Claude Code's [memory system](https://docs.anthr
  └────┬──────┬──────┬──────┘
       ▼      ▼      ▼
     Text   Images  Video
-                     │
-                curl → ffmpeg → whisper transcribe
-                     │
-                     ▼
-              Obsidian note
+     │              │
+     │         curl → ffmpeg → whisper transcribe
+     │              │
+     ▼              ▼
+ ┌─────────────────────────┐
+ │  MCP Comments (optional) │  ← rednote MCP fetches comments
+ │  Top 10 by likes          │    auto dedup & sort
+ └────────────┬────────────┘
+              ▼
+        Obsidian note
 ```
 
 ---

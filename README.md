@@ -11,7 +11,9 @@
 
 ---
 
-一个 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 插件，把小红书帖子一键提取为简洁的 [Obsidian](https://obsidian.md) 笔记。支持图文和视频帖子——视频会自动下载并用本地 whisper 做语音转录。不需要 MCP 服务、无头浏览器或任何后端，只用 cookies + HTTP + 本地模型。
+一个 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 插件，把小红书帖子一键提取为简洁的 [Obsidian](https://obsidian.md) 笔记。支持图文和视频帖子——视频会自动下载并用本地 whisper 做语音转录。
+
+基础模式只需要 cookies + HTTP + 本地模型。可选接入 [rednote MCP](https://github.com/DuckWu/rednote-mcp) 获取评论数据，自动筛选 Top 10 高赞评论写入笔记。
 
 ---
 
@@ -55,9 +57,11 @@
 
 | 命令 | 说明 |
 |:-----|:-----|
-| `/xhs <链接>` | 📄 提取单个帖子 — 文字、图片、视频转录 |
+| `/xhs <链接>` | 📄 提取单个帖子 — 文字、图片、视频转录，MCP 高赞评论 |
 | `/xhs-batch <链接列表>` | 📦 批量提取多个帖子 |
 | `/xhs-analyze [关键词]` | 🔍 分析已保存的帖子 — 总结、对比、发现模式 |
+
+> 💡 可选安装 [rednote MCP](https://github.com/DuckWu/rednote-mcp) 自动获取帖子评论，筛选 Top 10 高赞写入笔记。不装 MCP 也能正常使用全部其他功能。
 
 ### 📂 输出
 
@@ -84,6 +88,10 @@ xhs/
 > [!tip]- 详情                         ← 默认折叠
 > 结构化内容...
 
+> [!tip]- 热门评论（Top 10）            ← MCP 获取，默认折叠
+> 1. **作者**（N赞）：评论内容
+> ...
+
 > [!info]- 笔记属性                     ← 默认折叠
 > 来源 · 日期 · 互动 · 标签
 ```
@@ -107,11 +115,16 @@ xhs/
  └────┬──────┬──────┬──────┘
       ▼      ▼      ▼
     文字    图片    视频
-                     │
-                curl → ffmpeg → whisper 转录
-                     │
-                     ▼
-              Obsidian 笔记
+     │              │
+     │         curl → ffmpeg → whisper 转录
+     │              │
+     ▼              ▼
+ ┌─────────────────────────┐
+ │  MCP 评论（可选）        │  ← rednote MCP 获取评论
+ │  筛选 Top 10 高赞        │    自动去重排序
+ └────────────┬────────────┘
+              ▼
+        Obsidian 笔记
 ```
 
 ---
