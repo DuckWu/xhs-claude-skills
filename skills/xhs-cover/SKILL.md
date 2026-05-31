@@ -172,7 +172,7 @@ with sync_playwright() as p:
     browser.close()
 ```
 
-默认保存到 `~/Documents/Obsidian Vault/xhs/img/cover-{简短标识}.png`。
+默认保存到 Obsidian vault 的 `xhs/img/cover-{简短标识}.png`（路径继承自 xhs skill 的常量定义，支持 macOS/Windows/Linux）。
 
 ### 步骤 5：展示
 用 Read 工具展示生成的图片给用户，询问是否需要调整。

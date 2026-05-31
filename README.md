@@ -21,13 +21,16 @@
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)（本插件的运行环境）
 - [Obsidian](https://obsidian.md)（只需 vault 文件夹存在，不需要 CLI）
-- 视频转录（可选）：`brew install ffmpeg` + `pip install mlx-whisper`
+- 视频转录（可选）：
+  - **macOS**: `brew install ffmpeg` + `pip install mlx-whisper`
+  - **Windows**: `winget install ffmpeg`（安装后需**重启终端**）+ `pip install openai-whisper`（首次运行会自动下载 large-v3 模型约 3GB）
+  - **Linux**: `sudo apt install ffmpeg` + `pip install openai-whisper`
 
 ### 安装插件
 
 ```bash
-/plugin marketplace add chenxiachan/xhs-claude-skills
-/plugin install rednote-to-obsidian@chenxiachan-xhs-claude-skills
+/plugin marketplace add DuckWu/xhs-claude-skills
+/plugin install rednote-to-obsidian@DuckWu-xhs-claude-skills
 ```
 
 ### 首次使用
@@ -105,7 +108,7 @@ xhs/
       ▼      ▼      ▼
     文字    图片    视频
                      │
-                curl → ffmpeg → mlx-whisper
+                curl → ffmpeg → whisper 转录
                      │
                      ▼
               Obsidian 笔记
@@ -118,9 +121,12 @@ xhs/
 | 配置项 | 默认值 | 说明 |
 |:------|:------|:-----|
 | Cookies | `~/cookies.json` | 小红书认证 |
-| 输出目录 | `~/Documents/Obsidian Vault/xhs` | Obsidian vault 路径 |
+| 输出目录 | `~/Documents/Obsidian Vault/xhs` | Obsidian vault 路径，Windows 用户常见为 `~/Documents/Obsidian/`，路径不同时编辑 `skills/xhs/SKILL.md` |
 
-路径不同时编辑 `skills/xhs/SKILL.md` 中的常量定义。
+各平台默认路径：
+- **macOS**: `~/Documents/Obsidian Vault/xhs`
+- **Windows**: `~/Documents/Obsidian/xhs`（如不同请修改常量定义）
+- **Linux**: `~/Documents/Obsidian Vault/xhs`
 
 ## 📁 插件结构
 
@@ -137,6 +143,6 @@ rednote-to-obsidian/
 
 ---
 
-MIT License
+Forked from [chenxiachan/xhs-claude-skills](https://github.com/chenxiachan/xhs-claude-skills). MIT License
 
 </div>

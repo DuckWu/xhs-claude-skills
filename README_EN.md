@@ -21,13 +21,16 @@ A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that extr
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) (runtime environment)
 - [Obsidian](https://obsidian.md) (just needs the vault folder — no CLI required)
-- Video transcription (optional): `brew install ffmpeg` + `pip install mlx-whisper`
+- Video transcription (optional):
+  - **macOS**: `brew install ffmpeg` + `pip install mlx-whisper`
+  - **Windows**: `winget install ffmpeg` (**restart terminal** after install) + `pip install openai-whisper` (first run downloads ~3GB large-v3 model)
+  - **Linux**: `sudo apt install ffmpeg` + `pip install openai-whisper`
 
 ### Install the plugin
 
 ```bash
-/plugin marketplace add chenxiachan/xhs-claude-skills
-/plugin install rednote-to-obsidian@chenxiachan-xhs-claude-skills
+/plugin marketplace add DuckWu/xhs-claude-skills
+/plugin install rednote-to-obsidian@DuckWu-xhs-claude-skills
 ```
 
 ### First use
@@ -105,7 +108,7 @@ The "Relevance" line reads from Claude Code's [memory system](https://docs.anthr
       ▼      ▼      ▼
     Text   Images  Video
                      │
-                curl → ffmpeg → mlx-whisper
+                curl → ffmpeg → whisper transcribe
                      │
                      ▼
               Obsidian note
@@ -118,9 +121,12 @@ The "Relevance" line reads from Claude Code's [memory system](https://docs.anthr
 | Setting | Default | Description |
 |:--------|:--------|:------------|
 | Cookies | `~/cookies.json` | RedNote auth |
-| Output dir | `~/Documents/Obsidian Vault/xhs` | Obsidian vault path |
+| Output dir | `~/Documents/Obsidian Vault/xhs` | Obsidian vault path. Windows users often use `~/Documents/Obsidian/`. Edit constants in `skills/xhs/SKILL.md` if your path differs. |
 
-Edit constants in `skills/xhs/SKILL.md` if your paths differ.
+Platform-specific defaults:
+- **macOS**: `~/Documents/Obsidian Vault/xhs`
+- **Windows**: `~/Documents/Obsidian/xhs` (adjust if different)
+- **Linux**: `~/Documents/Obsidian Vault/xhs`
 
 ## 📁 Plugin structure
 
@@ -137,6 +143,6 @@ rednote-to-obsidian/
 
 ---
 
-MIT License
+Forked from [chenxiachan/xhs-claude-skills](https://github.com/chenxiachan/xhs-claude-skills). MIT License
 
 </div>

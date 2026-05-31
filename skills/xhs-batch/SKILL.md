@@ -11,7 +11,11 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 ## 常量定义
 - Cookies 文件: `~/cookies.json`
 - Obsidian 保存目录: `~/Documents/Obsidian Vault/xhs`
-- Whisper 模型: `mlx-community/whisper-large-v3-turbo`
+  - 若路径不存在，自动检测 Obsidian vault 位置
+  - Windows 用户常见路径: `~/Documents/Obsidian/` 或自定义位置，请按实际情况修改
+- Whisper 模型:
+  - macOS: `mlx-community/whisper-large-v3-turbo`（使用 mlx-whisper）
+  - Windows/Linux: `large-v3`（使用 openai-whisper）
 
 ## 输入
 用户提供的链接列表: $ARGUMENTS

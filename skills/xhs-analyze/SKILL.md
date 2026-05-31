@@ -10,6 +10,8 @@ allowed-tools: Bash, Read, Glob, Grep
 
 ## 常量定义
 - Obsidian 保存目录: `~/Documents/Obsidian Vault/xhs`
+  - 若路径不存在，自动检测 Obsidian vault 位置
+  - Windows 用户常见路径: `~/Documents/Obsidian/` 或自定义位置，请按实际情况修改
 
 ## 输入
 用户查询: $ARGUMENTS
